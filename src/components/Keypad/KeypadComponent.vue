@@ -42,7 +42,7 @@ const handleKeyClick = (key: string) => {
   keyPressed.value = key;
   setTimeout(() => {
     keyPressed.value = '';
-  }, 200);
+  }, 100);
   if (key === keypadBackspace) {
     emits('backspace');
   } else if (key === keypadContinue) {
@@ -69,12 +69,13 @@ const emitExternal = () => {
   height: var(--key-size);
   font-weight: bold;
   font-size: $font-size-larger;
+  transition-duration: 0.1s;
 
   &-row {
     gap: var(--key-gap-size);
   }
   &.pressed {
-    background-color: lighten($accent-color, 30%);
+    background-color: lighten($accent-color, 15%);
   }
 }
 
