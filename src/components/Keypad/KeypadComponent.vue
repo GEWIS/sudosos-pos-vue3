@@ -2,7 +2,14 @@
   <div class="keypad flex-column">
     <div class="key-row d-flex justify-content-center" v-for="row in keypadLayout" :key="row[0]">
       <div
-        :class="['key c-btn active square', { backspace: key === keypadBackspace, continue: key === keypadContinue }]"
+        :class="[
+          'key c-btn active square',
+          {
+            backspace: key === keypadBackspace,
+            continue: key === keypadContinue,
+            pressed: key == keyPressed,
+          },
+        ]"
         v-for="key in row"
         :key="key"
         @click="handleKeyClick(key)"
@@ -17,18 +24,25 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+
+const keyPressed = ref<string>('');
 const keypadBackspace = 'B';
 const keypadContinue = 'C';
 const keypadLayout = [
   ['1', '2', '3'],
   ['4', '5', '6'],
   ['7', '8', '9'],
-  ['B', '0', 'C']
+  ['B', '0', 'C'],
 ];
 
 const emits = defineEmits(['backspace', 'continue', 'input', 'external']);
 
 const handleKeyClick = (key: string) => {
+  keyPressed.value = key;
+  setTimeout(() => {
+    keyPressed.value = '';
+  }, 100);
   if (key === keypadBackspace) {
     emits('backspace');
   } else if (key === keypadContinue) {
@@ -50,24 +64,28 @@ const emitExternal = () => {
 }
 
 .key {
-  color: rgba(255, 255, 255, 0.8)!important;
+  color: rgba(255, 255, 255, 0.8) !important;
   width: var(--key-size);
   height: var(--key-size);
   font-weight: bold;
   font-size: $font-size-larger;
+  transition-duration: 0.1s;
 
   &-row {
     gap: var(--key-gap-size);
   }
+  &.pressed {
+    background-color: lighten($accent-color, 15%);
+  }
 }
 
 .backspace {
-  background-color: $accent-color!important;
+  background-color: $accent-color !important;
   color: rgba(255, 255, 255, 1);
 }
 
 .continue {
-  background-color: #0055fd!important;
+  background-color: #0055fd !important;
   color: rgba(255, 255, 255, 1);
 }
 </style>
