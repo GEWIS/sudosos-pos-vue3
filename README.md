@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository has been moved into [GEWIS/sudosos-frontend](https://github.com/GEWIS/sudosos-frontend)
+
 # SudoSOS POS Vue 3
 
 Frontend application for the SudoSOS point of sale (POS) system
